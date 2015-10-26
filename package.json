@@ -1,0 +1,34 @@
+{
+  "name": "tiny-each-async",
+  "version": "1.0.0",
+  "description": "Asynchronous iterator function for parallel processing.",
+  "main": "index.js",
+  "keywords": [
+    "each",
+    "async",
+    "asynchronous",
+    "iteration",
+    "iterate",
+    "loop",
+    "foreach",
+    "parallel",
+    "concurrent",
+    "array",
+    "flow",
+    "control flow"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "alessioalex-standard": "^1.0.0",
+    "husky": "^0.10.1",
+    "tape": "^4.2.2"
+  },
+  "scripts": {
+    "test": "tape test.js",
+    "lint": "alessioalex-standard",
+    "precommit": "npm run lint && npm test"
+  },
+  "author": "Alexandru Vladutu <alexandru.vladutu@gmail.com>",
+  "license": "MIT",
+  "repository": "alessioalex/tiny-each-async"
+}
