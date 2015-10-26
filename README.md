@@ -2,7 +2,7 @@
 
 Asynchronous iterator function, similar to (and inspired by) [async.each](https://github.com/caolan/async#eacharr-iterator-callback).
 
-[![build status](https://secure.travis-ci.org/alessioalex/tiny-async-each.png)](http://travis-ci.org/alessioalex/tiny-async-each)
+[![build status](https://secure.travis-ci.org/alessioalex/tiny-each-async.png)](http://travis-ci.org/alessioalex/tiny-each-async)
 
 ## Usage
 
