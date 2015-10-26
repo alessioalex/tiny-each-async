@@ -1,4 +1,4 @@
-# tiny-async-each
+# tiny-each-async
 
 Asynchronous iterator function, similar to (and inspired by) [async.each](https://github.com/caolan/async#eacharr-iterator-callback).
 
