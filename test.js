@@ -3,6 +3,7 @@
 
 var it = require('tape');
 var eachAsync = require('./');
+var lolex = require('lolex');
 
 it('should execute the final callback once all individual tasks are finished', function(t) {
   var counter = 0;
@@ -14,19 +15,6 @@ it('should execute the final callback once all individual tasks are finished', f
     t.equal(counter, 3);
     t.end();
   });
-});
-
-it('should be async even though the iterator is not', function(t) {
-  var index = 0;
-
-  eachAsync([1, 2, 3], function(item, i, next) {
-    next();
-  }, function() {
-    t.equal(++index, 2);
-    t.end();
-  });
-
-  t.equal(++index, 1);
 });
 
 it('should provide index as an argument for the iterator if needed', function(t) {
@@ -49,6 +37,18 @@ it('should treat iterator index as an optional param', function(t) {
   });
 });
 
+it('should treat limit as an optional param', function(t) {
+  eachAsync([1, 2, 3], function(item, next) {
+    next();
+  }, function() {
+    eachAsync([1, 2, 3], 2, function(item, next) {
+      next();
+    }, function() {
+      t.end();
+    });
+  });
+});
+
 it('should return early in case there\'s an error', function(t) {
   var error = new Error('test');
 
@@ -60,4 +60,26 @@ it('should return early in case there\'s an error', function(t) {
     t.equal(err, error);
     t.end();
   });
+});
+
+it('should limit the concurrency', function(t) {
+  var clock = lolex.install();
+  var items = [];
+
+  eachAsync([1, 2, 3, 4, 5], 2, function(item, next) {
+    setTimeout(function() {
+      items.push(item);
+      next();
+    }, 1000);
+  }, function() {
+    clock.uninstall();
+    t.end();
+  });
+
+  clock.tick(1001);
+  t.deepEqual([1, 2], items);
+  clock.tick(1001);
+  t.deepEqual([1, 2, 3, 4], items);
+  clock.tick(1000);
+  t.deepEqual([1, 2, 3, 4, 5], items);
 });

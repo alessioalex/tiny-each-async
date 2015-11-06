@@ -1,8 +1,8 @@
 /* eslint-disable no-console, func-names */
 'use strict';
 
-var eachAsync = require('./');
-var timeouts = [300, 100, 2000];
+var eachAsync = require('../');
+var timeouts = [700, 300, 2000];
 
 eachAsync(['file1', 'file2', 'file3'], function(item, index, next) {
   setTimeout(function() {

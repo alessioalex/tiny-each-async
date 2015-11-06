@@ -1,27 +1,57 @@
+/* eslint-disable no-use-before-define */
 'use strict';
 
-// we don't need a real shim setImmediate
-var immediate = (typeof setImmediate === 'function') ? setImmediate : setTimeout;
+module.exports = function eachAsync(arr, parallelLimit, iteratorFn, cb) {
+  var pending = 0;
+  var index = 0;
+  var lastIndex = arr.length - 1;
+  var called = false;
+  var limit;
+  var callback;
+  var iterate;
 
-module.exports = function eachAsync(arr, iterator, cb) {
-  var callback = cb || function noop() {};
-  var counter = arr.length;
-  var iteratorLength = iterator.length;
-  var error;
+  if (typeof parallelLimit === 'number') {
+    limit = parallelLimit;
+    iterate = iteratorFn;
+    callback = cb || function noop() {};
+  } else {
+    iterate = parallelLimit;
+    callback = iteratorFn || function noop() {};
+    limit = arr.length;
+  }
 
-  arr.forEach(function forEach(item, index) {
-    var next = function next(err) {
-      if (!error && (err || !--counter)) {
-        error = err;
+  var iteratorLength = iterate.length;
 
-        immediate(function asyncify() {
-          callback(err);
-        }, 0);
-      }
-    };
+  var shouldCallNextIterator = function shouldCallNextIterator() {
+    return ((pending < limit) && (index < lastIndex));
+  };
 
-    var args = (iteratorLength === 2) ? [item, next] : [item, index, next];
+  var iteratorCallback = function iteratorCallback(err) {
+    if (called) { return; }
 
-    iterator.apply(null, args);
-  });
+    pending--;
+
+    if (err || (index === lastIndex && !pending)) {
+      called = true;
+
+      callback(err);
+    } else if (shouldCallNextIterator()) {
+      processIterator(++index);
+    }
+  };
+
+  var processIterator = function processIterator() {
+    pending++;
+
+    var args = (iteratorLength === 2) ? [arr[index], iteratorCallback]
+                                      : [arr[index], index, iteratorCallback];
+
+    iterate.apply(null, args);
+
+    if (shouldCallNextIterator()) {
+      processIterator(++index);
+    }
+  };
+
+  processIterator();
 };
