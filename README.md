@@ -6,7 +6,7 @@ Asynchronous iterator function similar to (and inspired by) [async.each](https:/
 
 ## Usage
 
-### each(array, iterator, [callback])
+### each(array, [limit], iterator, [callback])
 
 Arguments:
 
@@ -31,7 +31,7 @@ eachAsync(['file1', 'file2', 'file3'], function(item, index, next) {
 });
 ```
 
-For more examples checkout the [/examples](/tree/master/examples) folder.
+For more examples checkout the [/examples](/examples) folder.
 
 ## FAQ
 
