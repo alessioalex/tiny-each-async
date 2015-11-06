@@ -4,14 +4,6 @@
 var immediate = (typeof setImmediate === 'function') ? setImmediate : setTimeout;
 
 module.exports = function eachAsync(arr, iterator, cb) {
-  if (!Array.isArray(arr)) {
-    throw new TypeError('Invalid first argument! Expecting array!');
-  }
-
-  if (typeof iterator !== 'function') {
-    throw new TypeError('Invalid second argument! Expecting function!');
-  }
-
   var callback = cb || function noop() {};
   var counter = arr.length;
   var iteratorLength = iterator.length;
