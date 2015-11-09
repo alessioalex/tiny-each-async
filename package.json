@@ -1,6 +1,6 @@
 {
   "name": "tiny-each-async",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Asynchronous iterator function for parallel processing.",
   "main": "index.js",
   "keywords": [
