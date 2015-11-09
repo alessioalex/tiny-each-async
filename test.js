@@ -55,6 +55,8 @@ it('should return early in case there\'s an error', function(t) {
   eachAsync([1, 2, 3], function(item, next) {
     if (item === 2) { return next(error); }
 
+    t.ok(item === 1);
+
     next();
   }, function(err) {
     t.equal(err, error);
