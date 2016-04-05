@@ -20,6 +20,8 @@ module.exports = function eachAsync(arr, parallelLimit, iteratorFn, cb) {
     limit = arr.length;
   }
 
+  if (!arr.length) { return callback(); }
+
   var iteratorLength = iterate.length;
 
   var shouldCallNextIterator = function shouldCallNextIterator() {

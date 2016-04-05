@@ -5,6 +5,14 @@ var it = require('tape');
 var eachAsync = require('./');
 var lolex = require('lolex');
 
+it('should call back even if the array is empty', function(t) {
+  eachAsync([], function(item, next) {
+    next();
+  }, function() {
+    t.end();
+  });
+});
+
 it('should execute the final callback once all individual tasks are finished', function(t) {
   var counter = 0;
 
